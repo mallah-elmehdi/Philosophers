@@ -5,4 +5,9 @@
 # include <unistd.h>
 # include <pthread.h>
 
+typedef struct s_test
+{
+    int i;
+
+} t_test;
 #endif

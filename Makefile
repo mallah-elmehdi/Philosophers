@@ -4,7 +4,7 @@ THRD = -lpthread
 PHILO = philo.c
 
 $(NAME):
-	@gcc -g  $(PHILO) $(THRD) -o $(NAME) 
+	@gcc  $(PHILO) -o $(NAME) 
 
 all : $(NAME)
 
