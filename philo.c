@@ -1,39 +1,59 @@
 #include "philo.h"  
 
-t_test *src()
-{
-    static t_test abc;
-
-    return(&abc);
-}
-
-int out = 0;
-pthread_mutex_t  mutex;
-  
-// The function to be executed by all threads
-void    *myThreadFun(void)
-{
-    for (int i = 0; i < 10000000; i++)
-    {
-        pthread_mutex_lock()
-        out++;
-    }
+void    *thread_routine(t_philo *philosopher)
+{   
+    if (philosopher->thread_id < philosopher->number_of_philosophers)
+        printf("Thread ID %u next %u\n", philosopher->thread_id, (philosopher + 1)->thread_id);
+    else
+        printf("Thread ID %u next %u\n", philosopher->thread_id, (philosopher - philosopher->number_of_philosophers + 1)->thread_id);
     return (NULL);
 }
 
-int main()
+t_philo *philo_init(t_input *input)
 {
-    pthread_t tid0;
-    pthread_t tid1;
+    unsigned int    i;
+    t_philo         *philosophers;
 
-    pthread_mutex_init(&mutex, NULL);
-    pthread_create(&tid0, NULL, &myThreadFun, NULL);
-    pthread_create(&tid1, NULL, &myThreadFun, NULL);
-    
-    pthread_join(tid0, NULL);
-    pthread_join(tid1, NULL);
-    pthread_mutex_destroy(&mutex, NULL);
-    
-    printf("%d\n", out);
-    return 0;
+    i = 0;
+    philosophers = (t_philo *)ft_calloc(sizeof(t_philo), (input->number_of_philosophers + 1));
+    if (philosophers == NULL)
+    {
+        free(input);
+        return (NULL);
+    }
+    while (i < input->number_of_philosophers)
+    {
+        philosophers[i].thread_id = i + 1;
+        philosophers[i].number_of_philosophers = input->number_of_philosophers;
+        philosophers[i].number_of_forks = input->number_of_forks;
+        philosophers[i].time_to_eat = input->time_to_eat;
+        philosophers[i].time_to_sleep = input->time_to_sleep;
+        philosophers[i].time_to_die = input->time_to_die;
+        philosophers[i].number_of_times_each_philosopher_must_eat = input->number_of_times_each_philosopher_must_eat;
+        i++;
+    }
+    return (philosophers);
+}
+
+int philo(t_input *input)
+{
+    unsigned int    i;
+    t_philo         *philosophers;
+
+    i = 0;
+    philosophers = philo_init(input);
+    if (philosophers == NULL)
+        return (ERROR);
+    while (i < input->number_of_philosophers)
+    {
+        if (pthread_create(&philosophers[i].thread, NULL, (void *)thread_routine, &philosophers[i]) != SUCCESS)
+        {
+            free(input);
+            free(philosophers);
+            return (ERROR);
+        }
+        usleep(100);
+        i++;
+    }
+    return (SUCCESS);
 }
