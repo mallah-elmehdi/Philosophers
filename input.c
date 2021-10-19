@@ -30,13 +30,26 @@ void	init_input(int ac, char **av, t_input *input)
 {
 	input->nbr_philos = ft_atoi(av[1]);
 	input->nbr_of_forks = ft_atoi(av[1]);
-	input->time_to_die = ft_atoi(av[2]);
-	input->time_to_eat = ft_atoi(av[3]);
-	input->time_to_sleep = ft_atoi(av[4]);
-	input->current_time = get_time();
+	input->time_to_die = ft_atoi(av[2]) * 1000;
+	input->time_to_eat = ft_atoi(av[3]) * 1000;
+	input->time_to_sleep = ft_atoi(av[4]) * 1000;
+	input->start_time = time_in_us();
+	input->philo_died = 0;
 	input->nbr_eat = -1;
 	if (ac == 6)
 		input->nbr_eat = ft_atoi(av[5]);
+}
+
+int	check_input(t_input *input)
+{
+	if (input->nbr_philos < 0
+		|| input->nbr_of_forks < 0
+		|| input->time_to_die < 0
+		|| input->time_to_eat < 0
+		|| input->time_to_sleep < 0
+		|| input->nbr_eat < -1)
+		return (ERROR);
+	return (SUCCESS);
 }
 
 int	get_input(int ac, char **av, t_input *input)
@@ -54,5 +67,5 @@ int	get_input(int ac, char **av, t_input *input)
 		i++;
 	}
 	init_input(ac, av, input);
-	return (SUCCESS);
+	return (check_input(input));
 }

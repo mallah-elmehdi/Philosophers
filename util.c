@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-unsigned long	get_time(void)
+long long	time_in_us(void)
 {
 	struct timeval	current_time;
 
@@ -20,7 +20,22 @@ unsigned long	get_time(void)
 	return ((current_time.tv_sec * 1000 * 1000) + current_time.tv_usec);
 }
 
-void	print_msg(const char *msg, unsigned long id, unsigned long current_time)
+void	print_msg(const char *msg, long long current_time, int id)
 {
-	printf("%lu %d %s\n", (get_time() - current_time) / 1000, id, msg);
+	printf("%lld %u %s\n", (time_in_us() - current_time) / 1000, id, msg);
+}
+
+void	ft_usleep(long long time)
+{
+	long long	sleep_time;
+	long long	current_time;
+
+	current_time = time_in_us();
+	if (time < 50000)
+		sleep_time = time;
+	else
+		sleep_time = time - 50000;
+	usleep(sleep_time);
+	while ((time_in_us() - current_time) < time)
+		;
 }

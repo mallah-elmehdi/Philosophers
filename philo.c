@@ -16,24 +16,42 @@ void	*philo_routine(t_philo *philo)
 {
 	while (1)
 	{
-		if (philo->nbr_eat != -1 && philo->nbr_eat == 0)
+		if (philo->input->philo_died
+			|| (philo->input->nbr_eat != -1 && philo->nbr_meals
+				== philo->input->nbr_eat))
 			break ;
+		if (philo_has_died(philo) == SUCCESS)
+			return ("DONE");
 		if (philo_is_eating(philo) == NULL)
 			return (NULL);
-		philo->done_eat = get_time();
-		usleep(philo->time_to_eat * 1000);
+		philo->done_eat = time_in_us();
+		ft_usleep(philo->input->time_to_eat);
 		if (philo_is_sleeping(philo) == NULL)
 			return (NULL);
-		usleep(philo->time_to_sleep * 1000);
-		print_msg("is thinking", philo->current_time, philo->id);
+		ft_usleep(philo->input->time_to_sleep);
+		if (!philo->input->philo_died)
+			print_msg("is thinking", philo->input->start_time, philo->id);
 	}
 	return ("DONE");
 }
 
+int	hang(t_philo *philos, t_input *input)
+{
+	while (1)
+	{
+		if (input->philo_died || all_philo_done(philos, input) == SUCCESS)
+		{
+			break ;
+		}
+	}
+	free (philos);
+	return (SUCCESS);
+}
+
 int	philo(t_input *input)
 {
-	unsigned int	i;
-	t_philo			*philos;
+	int		i;
+	t_philo	*philos;
 
 	i = 0;
 	philos = philo_init(input);
@@ -41,16 +59,15 @@ int	philo(t_input *input)
 		return (ERROR);
 	while (i < input->nbr_philos)
 	{
-		philos[i].done_eat = get_time();
+		philos[i].done_eat = time_in_us();
 		if (pthread_create(&philos[i].thread, NULL,
 				(void *)philo_routine, &philos[i]) != 0)
 		{
-			free(input);
 			free(philos);
 			return (ERROR);
 		}
-		usleep(100);
+		ft_usleep(80000);
 		i++;
 	}
-	return (philo_has_died(philos, input));
+	return (hang(philos, input));
 }

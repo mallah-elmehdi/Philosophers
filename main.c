@@ -24,6 +24,10 @@ int	main(int ac, char **av)
 	if (get_input(ac, av, input) == ERROR)
 		return (error("Invalid input"));
 	if (philo(input) == ERROR)
+	{
+		free(input);
 		return (error("Something went wrong"));
+	}
+	free(input);
 	return (SUCCESS);
 }
