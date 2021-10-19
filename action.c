@@ -69,15 +69,20 @@ int	all_philo_done(t_philo *philos, t_input *input)
 	return (SUCCESS);
 }
 
-int	philo_has_died(t_philo *philo)
+int	philo_has_died(t_philo *philos, t_input *input)
 {
-	if (time_in_us() - philo->done_eat >= philo->input->time_to_die
-		|| philo->input->nbr_philos <= 1)
+	long    i;
+	
+	i = 0;
+	while (i < input->nbr_philos && !input->philo_died)
 	{
-		pthread_mutex_lock(&philo->died);
-		print_msg("has died", philo->input->start_time, philo->id);
-		philo->input->philo_died = 1;
-		return (SUCCESS);
+		if (time_in_us() - philos[i].done_eat >= philos[i].input->time_to_die)
+		{
+			pthread_mutex_lock(&philos[i].died);
+			print_msg("has died", philos[i].input->start_time, philos[i].id);
+			philos[i].input->philo_died = 1;
+		}
+		i++;
 	}
-	return (ERROR);
+	return (SUCCESS);
 }

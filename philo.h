@@ -53,7 +53,7 @@ t_philo			*philo_init(t_input *input);
 // action
 void			*philo_is_eating(t_philo *philo);
 void			*philo_is_sleeping(t_philo *philo);
-int				philo_has_died(t_philo *philo);
+int				philo_has_died(t_philo *philo, t_input *input);
 int				all_philo_done(t_philo *philos, t_input *input);
 // util
 long long		time_in_us(void);

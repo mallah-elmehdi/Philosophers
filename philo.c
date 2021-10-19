@@ -20,8 +20,6 @@ void	*philo_routine(t_philo *philo)
 			|| (philo->input->nbr_eat != -1 && philo->nbr_meals
 				== philo->input->nbr_eat))
 			break ;
-		if (philo_has_died(philo) == SUCCESS)
-			return ("DONE");
 		if (philo_is_eating(philo) == NULL)
 			return (NULL);
 		philo->done_eat = time_in_us();
@@ -39,10 +37,9 @@ int	hang(t_philo *philos, t_input *input)
 {
 	while (1)
 	{
+		philo_has_died(philos, input);
 		if (input->philo_died || all_philo_done(philos, input) == SUCCESS)
-		{
 			break ;
-		}
 	}
 	free (philos);
 	return (SUCCESS);
@@ -66,7 +63,6 @@ int	philo(t_input *input)
 			free(philos);
 			return (ERROR);
 		}
-		ft_usleep(80000);
 		i++;
 	}
 	return (hang(philos, input));
