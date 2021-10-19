@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emallah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:45:32 by emallah           #+#    #+#             */
+/*   Updated: 2021/10/19 14:45:34 by emallah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "util.h"
 
-int error(const char *msg)
+int	error(const char *msg)
 {
-    printf("Error: %s\n", msg);
-    return (ERROR);
+	printf("Error: %s\n", msg);
+	return (ERROR);
 }

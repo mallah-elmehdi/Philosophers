@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emallah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:45:11 by emallah           #+#    #+#             */
+/*   Updated: 2021/10/19 14:45:15 by emallah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTIL_H
 # define UTIL_H
 # include <stdio.h>
@@ -5,15 +17,9 @@
 # define ERROR 1
 # define SUCCESS 0
 
-// typedef struct s_test
-// {
-//     int i;
-
-// } t_test;
-
 int		ft_atoi(const char *str);
-int	isnum(char element);
-int error(const char *msg);
+int		isnum(char element);
+int		error(const char *msg);
 void	*ft_calloc(int a, int b);
 
 #endif

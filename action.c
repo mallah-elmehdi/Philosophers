@@ -1,84 +1,93 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emallah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:50:27 by emallah           #+#    #+#             */
+/*   Updated: 2021/10/19 14:50:28 by emallah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"  
 
-void    *philo_is_eating(t_philo *philo)
+void	*philo_is_eating(t_philo *philo)
 {
-    if (pthread_mutex_lock(&philo->fork) != 0)
-        return (NULL);
-    printf("%lu %d has taken a fork\n", (get_time() - philo->current_time) / 1000, philo->thread_id);
-    if (philo->thread_id < philo->nbr_of_philos)
-    {
-        if (pthread_mutex_lock(&(philo + 1)->fork) != 0)
-            return (NULL);
-    }
-    else
-    {
-        if (pthread_mutex_lock(&(philo - philo->nbr_of_philos + 1)->fork) != 0)
-             return (NULL);
-    }
-    printf("%lu %d has taken a fork\n", (get_time() - philo->current_time) / 1000, philo->thread_id);
-    printf("%lu %d is eating\n", (get_time() - philo->current_time) / 1000, philo->thread_id);
-    return ("GOOD");
+	if (pthread_mutex_lock(&philo->fork) != 0)
+		return (NULL);
+	print_msg("has taken a fork", philo->current_time, philo->id);
+	if (philo->id < philo->nbr_philos)
+	{
+		if (pthread_mutex_lock(&(philo + 1)->fork) != 0)
+			return (NULL);
+	}
+	else
+	{
+		if (pthread_mutex_lock(&(philo - philo->nbr_philos + 1)->fork) != 0)
+			 return (NULL);
+	}
+	print_msg("has taken a fork", philo->current_time, philo->id);
+	print_msg("is eating", philo->current_time, philo->id);
+	return ("GOOD");
 }
 
-void    *philo_is_sleeping(t_philo *philo)
+void	*philo_is_sleeping(t_philo *philo)
 {
-    if (pthread_mutex_unlock(&philo->fork) != 0)
+	if (pthread_mutex_unlock(&philo->fork) != 0)
 		return (NULL);
-    if (philo->thread_id < philo->nbr_of_philos)
-    {
-        if (pthread_mutex_unlock(&(philo + 1)->fork) != 0)
-            return (NULL);
-    }
-    else
-    {
-        if (pthread_mutex_unlock(&(philo - philo->nbr_of_philos + 1)->fork) != 0)
-            return (NULL);
-    }
+	if (philo->id < philo->nbr_philos)
+	{
+		if (pthread_mutex_unlock(&(philo + 1)->fork) != 0)
+			return (NULL);
+	}
+	else if (pthread_mutex_unlock(&(philo - philo->nbr_philos + 1)->fork) != 0)
+		return (NULL);
 	if (philo->nbr_eat != -1 && philo->nbr_eat != 0)
 		philo->nbr_eat--;
-    printf("%lu %d is sleeping\n", (get_time() - philo->current_time) / 1000, philo->thread_id);
-    return ("GOOD");
+	print_msg("is sleeping", philo->current_time, philo->id);
+	return ("GOOD");
 }
 
-int    all_philo_done(t_philo *philos, t_input *input)
+int	all_philo_done(t_philo *philos, t_input *input)
 {
-    unsigned int i;
-    
+	unsigned int	i;
+
 	i = 0;
-	while (i < input->nbr_of_philos)
+	while (i < input->nbr_philos)
 	{
 		if (philos[i].nbr_eat != 0)
 			return (ERROR);
 		i++;
 	}
-    return (SUCCESS);
+	return (SUCCESS);
 }
 
-int    philo_has_died(t_philo *philos, t_input *input)
+int	philo_has_died(t_philo *philos, t_input *input)
 {
-    unsigned int i;
-    
-    while (1)
-    {
-        i = 0;
+	unsigned int	i;
+
+	while (1)
+	{
+		i = 0;
 		if (all_philo_done(philos, input) == SUCCESS)
 		{
 			free(input);
 			free(philos);
 			break ;
 		}
-        while (i < input->nbr_of_philos)
-        {
-            if (get_time() - philos[i].done_eating >= philos[i].time_to_die * 1000) 
-            {
-                printf("%lu %d has died\n", (get_time() - philos[i].current_time) / 1000, philos[i].thread_id);
+		while (i < input->nbr_philos)
+		{
+			if (get_time() - philos[i].done_eat >= philos[i].time_to_die * 1000)
+			{
+				print_msg("has died", philos[i].current_time, philos[i].id);
 				free(input);
 				free(philos);
-                return (SUCCESS);
-            }
-            // usleep(100);
-            i++;
-        }
-    }
-    return (SUCCESS);
+				return (SUCCESS);
+			}
+			usleep(100);
+			i++;
+		}
+	}
+	return (SUCCESS);
 }
