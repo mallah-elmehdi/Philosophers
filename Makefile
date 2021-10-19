@@ -7,7 +7,7 @@ PHILO = philo.c input.c init.c action.c util.c
 MAIN = main.c
 
 $(NAME):
-	@gcc  $(PHILO) $(UTIL) $(MAIN) $(FLAG) $(SEG) $(THRD) -o $(NAME) 
+	@gcc $(FLAG) $(PHILO) $(UTIL) $(MAIN) $(THRD) -o $(NAME) 
 
 all : $(NAME)
 

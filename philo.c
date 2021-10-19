@@ -4,6 +4,8 @@ void    *philo_routine(t_philo *philo)
 {
 	while (1)
 	{
+		if (philo->nbr_eat != -1 && philo->nbr_eat == 0)
+			break ;
 		if (philo_is_eating(philo) == NULL)
 			return (NULL);
 		philo->done_eating = get_time();
@@ -13,7 +15,7 @@ void    *philo_routine(t_philo *philo)
 		usleep(philo->time_to_sleep * 1000);
 		printf("%lu %d is thinking\n", (get_time() - philo->current_time) / 1000, philo->thread_id);
 	}
-	return (NULL);
+	return ("DONE");
 }
 
 int philo(t_input *input)
@@ -28,7 +30,7 @@ int philo(t_input *input)
 	while (i < input->nbr_of_philos)
 	{
 		philos[i].done_eating = get_time();
-		if (pthread_create(&philos[i].thread, NULL, (void *)philo_routine, &philos[i]) != SUCCESS)
+		if (pthread_create(&philos[i].thread, NULL, (void *)philo_routine, &philos[i]) != 0)
 		{
 			free(input);
 			free(philos);
@@ -37,11 +39,5 @@ int philo(t_input *input)
 		usleep(100);
 		i++;
 	}
-	if (philo_has_died(philos, input) == SUCCESS)
-	{			
-		free(input);
-		free(philos);
-		return (SUCCESS);
-	}
-return (SUCCESS);
+	return (philo_has_died(philos, input));
 }

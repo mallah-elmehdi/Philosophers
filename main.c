@@ -15,6 +15,3 @@ int main(int ac, char **av)
         return (error("Something went wrong"));
     return (SUCCESS);
 }
-
-// LEAKS
-// 1 - (t_input *input)
