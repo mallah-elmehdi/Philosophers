@@ -71,15 +71,15 @@ int	all_philo_done(t_philo *philos, t_input *input)
 
 int	philo_has_died(t_philo *philos, t_input *input)
 {
-	long    i;
-	
+	long	i;
+
 	i = 0;
 	while (i < input->nbr_philos && !input->philo_died)
 	{
 		if (time_in_us() - philos[i].done_eat >= philos[i].input->time_to_die)
 		{
 			pthread_mutex_lock(&philos[i].died);
-			print_msg("has died", philos[i].input->start_time, philos[i].id);
+			print_msg("died", philos[i].input->start_time, philos[i].id);
 			philos[i].input->philo_died = 1;
 		}
 		i++;
