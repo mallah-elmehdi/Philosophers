@@ -82,8 +82,9 @@ int	philo_has_died(t_philo *philos, t_input *input)
 			pthread_mutex_lock(&input->died);
 			print_msg("died", philos[i].input->start_time, philos[i].id);
 			philos[i].input->philo_died = 1;
+			return (SUCCESS);
 		}
 		i++;
 	}
-	return (SUCCESS);
+	return (ERROR);
 }

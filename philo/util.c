@@ -22,12 +22,7 @@ long long	time_in_us(void)
 
 void	print_msg(const char *msg, long long current_time, int id)
 {
-	long long	time;
-
-	time = time_in_us() - current_time - 5000;
-	if (time < 0)
-		time = 0;
-	printf("%lld %u %s\n", time / 1000, id, msg);
+	printf("%lld %u %s\n", (time_in_us() - current_time) / 1000, id, msg);
 }
 
 void	ft_usleep(long long time)
