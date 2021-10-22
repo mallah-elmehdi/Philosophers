@@ -17,9 +17,9 @@
 # define ERROR 1
 # define SUCCESS 0
 
-int		ft_atoi(const char *str);
-int		isnum(char element);
-int		error(const char *msg);
-void	*ft_calloc(int a, int b);
+long long		ft_atoi(const char *str);
+int				isnum(char element);
+int				error(const char *msg);
+void			*ft_calloc(int a, int b);
 
 #endif

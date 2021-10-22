@@ -12,7 +12,7 @@
 
 #include "util.h"
 
-int	ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	long		i;
 	long long	n;

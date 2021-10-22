@@ -37,8 +37,8 @@ int	hang(t_philo *philos, t_input *input)
 {
 	while (1)
 	{
-		
-		if (philo_has_died(philos, input) == SUCCESS || all_philo_done(philos, input) == SUCCESS)
+		if (philo_has_died(philos, input) == SUCCESS
+			|| all_philo_done(philos, input) == SUCCESS)
 			break ;
 	}
 	free (philos);
