@@ -23,10 +23,10 @@ void	*philo_routine(t_philo *philo)
 		if (philo_is_eating(philo) == NULL)
 			return (NULL);
 		philo->done_eat = time_in_us();
-		ft_usleep(philo->input->time_to_eat);
+		ft_usleep(philo->input->time_to_eat - 5000);
 		if (philo_is_sleeping(philo) == NULL)
 			return (NULL);
-		ft_usleep(philo->input->time_to_sleep);
+		ft_usleep(philo->input->time_to_sleep - 5000);
 		if (!philo->input->philo_died)
 			print_msg("is thinking", philo->input->start_time, philo->id);
 	}
@@ -63,6 +63,7 @@ int	philo(t_input *input)
 			free(philos);
 			return (ERROR);
 		}
+		ft_usleep(5000);
 		i++;
 	}
 	return (hang(philos, input));

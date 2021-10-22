@@ -19,14 +19,15 @@
 
 typedef struct s_input
 {
-	long long	nbr_philos;
-	long long	nbr_of_forks;
-	long long	time_to_die;
-	long long	time_to_eat;
-	long long	time_to_sleep;
-	long		nbr_eat;
-	long long	start_time;
-	int			philo_died;
+	long long		nbr_philos;
+	long long		nbr_of_forks;
+	long long		time_to_die;
+	long long		time_to_eat;
+	long long		time_to_sleep;
+	long			nbr_eat;
+	long long		start_time;
+	int				philo_died;
+	pthread_mutex_t	died;
 }	t_input;
 
 typedef struct s_philo
@@ -34,7 +35,6 @@ typedef struct s_philo
 	int				id;
 	pthread_t		thread;
 	pthread_mutex_t	fork;
-	pthread_mutex_t	died;
 	long long		done_eat;
 	long			nbr_meals;
 	t_input			*input;
