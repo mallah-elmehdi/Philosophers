@@ -14,6 +14,8 @@
 
 void	*philo_is_eating(t_philo *philo)
 {
+	if (!philo->input->philo_died)
+		print_msg("has taken a fork", philo->input->start_time, philo->id);
 	if (pthread_mutex_lock(&philo->fork) != 0)
 		return (NULL);
 	if (philo->id < philo->input->nbr_philos)
@@ -29,7 +31,6 @@ void	*philo_is_eating(t_philo *philo)
 	}
 	if (!philo->input->philo_died)
 	{
-		print_msg("has taken a fork", philo->input->start_time, philo->id);
 		print_msg("has taken a fork", philo->input->start_time, philo->id);
 		print_msg("is eating", philo->input->start_time, philo->id);
 	}
