@@ -35,7 +35,8 @@ typedef struct s_philo
 	int				id;
 	pthread_t		thread;
 	pthread_mutex_t	fork;
-	long long		done_eat;
+	long long		eats;
+	int				done_eat;
 	long			nbr_meals;
 	t_input			*input;
 }	t_philo;

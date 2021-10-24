@@ -22,8 +22,10 @@ void	*philo_routine(t_philo *philo)
 			break ;
 		if (philo_is_eating(philo) == NULL)
 			return (NULL);
-		philo->done_eat = time_in_us();
+		philo->done_eat = 0;
+		philo->eats = time_in_us();
 		ft_usleep(philo->input->time_to_eat);
+		philo->done_eat = 1;
 		if (philo_is_sleeping(philo) == NULL)
 			return (NULL);
 		ft_usleep(philo->input->time_to_sleep);
@@ -56,14 +58,14 @@ int	philo(t_input *input)
 		return (ERROR);
 	while (i < input->nbr_philos)
 	{
-		philos[i].done_eat = time_in_us();
+		philos[i].eats = time_in_us();
 		if (pthread_create(&philos[i].thread, NULL,
 				(void *)philo_routine, &philos[i]) != 0)
 		{
 			free(philos);
 			return (ERROR);
 		}
-		ft_usleep(10);
+		ft_usleep(100);
 		i++;
 	}
 	return (hang(philos, input));

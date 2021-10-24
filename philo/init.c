@@ -25,6 +25,7 @@ t_philo	*philo_init(t_input *input)
 	{
 		philos[i].id = i + 1;
 		philos[i].nbr_meals = 0;
+		philos[i].done_eat = 1;
 		philos[i].input = input;
 		if (pthread_mutex_init(&philos[i].fork, NULL) != 0)
 		{

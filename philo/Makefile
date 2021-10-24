@@ -5,7 +5,7 @@ UTIL= util/atoi.c util/error.c util/isnum.c util/calloc.c
 PHILO = philo.c input.c init.c action.c util.c
 MAIN = main.c
 
-$(NAME):
+$(NAME): $(PHILO) $(UTIL) $(MAIN)
 	@gcc $(FLAG) $(PHILO) $(UTIL) $(MAIN) $(THRD) -o $(NAME) 
 
 all : $(NAME)
