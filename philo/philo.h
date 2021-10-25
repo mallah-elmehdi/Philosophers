@@ -28,6 +28,7 @@ typedef struct s_input
 	long long		start_time;
 	int				philo_died;
 	pthread_mutex_t	died;
+	pthread_mutex_t	print;
 }	t_input;
 
 typedef struct s_philo
@@ -58,8 +59,7 @@ int				philo_has_died(t_philo *philo, t_input *input);
 int				all_philo_done(t_philo *philos, t_input *input);
 // util
 long long		time_in_us(void);
-void			print_msg(const char *msg, long long current_time,
-					int id);
+void			print_msg(const char *msg, t_input *input, int id);
 void			ft_usleep(long long time);
 
 #endif

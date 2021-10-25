@@ -30,7 +30,7 @@ void	*philo_routine(t_philo *philo)
 			return (NULL);
 		ft_usleep(philo->input->time_to_sleep);
 		if (!philo->input->philo_died)
-			print_msg("is thinking", philo->input->start_time, philo->id);
+			print_msg("is thinking", philo->input, philo->id);
 	}
 	return ("DONE");
 }
@@ -65,7 +65,7 @@ int	philo(t_input *input)
 			free(philos);
 			return (ERROR);
 		}
-		ft_usleep(100);
+		ft_usleep(500);
 		i++;
 	}
 	return (hang(philos, input));

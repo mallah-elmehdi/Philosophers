@@ -17,7 +17,7 @@ void	*philo_is_eating(t_philo *philo)
 	if (pthread_mutex_lock(&philo->fork) != 0)
 		return (NULL);
 	if (!philo->input->philo_died)
-		print_msg("has taken a fork", philo->input->start_time, philo->id);
+		print_msg("has taken a fork", philo->input, philo->id);
 	if (philo->id < philo->input->nbr_philos)
 	{
 		if (pthread_mutex_lock(&(philo + 1)->fork) != 0)
@@ -31,8 +31,8 @@ void	*philo_is_eating(t_philo *philo)
 	}
 	if (!philo->input->philo_died)
 	{
-		print_msg("has taken a fork", philo->input->start_time, philo->id);
-		print_msg("is eating", philo->input->start_time, philo->id);
+		print_msg("has taken a fork", philo->input, philo->id);
+		print_msg("is eating", philo->input, philo->id);
 	}
 	return ("GOOD");
 }
@@ -52,7 +52,7 @@ void	*philo_is_sleeping(t_philo *philo)
 	if (philo->input->nbr_eat != -1 && philo->nbr_meals < philo->input->nbr_eat)
 		philo->nbr_meals++;
 	if (!philo->input->philo_died)
-		print_msg("is sleeping", philo->input->start_time, philo->id);
+		print_msg("is sleeping", philo->input, philo->id);
 	return ("GOOD");
 }
 
@@ -80,9 +80,9 @@ int	philo_has_died(t_philo *philos, t_input *input)
 		if (time_in_us() - philos[i].eats >= input->time_to_die
 			&& philos[i].done_eat)
 		{
-			pthread_mutex_lock(&input->died);
-			print_msg("died", philos[i].input->start_time, philos[i].id);
 			philos[i].input->philo_died = 1;
+			pthread_mutex_lock(&input->died);
+			print_msg("died", philos[i].input, philos[i].id);
 			return (SUCCESS);
 		}
 		i++;
