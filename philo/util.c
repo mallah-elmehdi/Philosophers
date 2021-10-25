@@ -20,9 +20,11 @@ long long	time_in_us(void)
 	return ((current_time.tv_sec * 1000 * 1000) + current_time.tv_usec);
 }
 
-void	print_msg(const char *msg, long long current_time, int id)
+void	print_msg(const char *msg, t_input *input, int id)
 {
-	printf("%lld %u %s\n", (time_in_us() - current_time) / 1000, id, msg);
+	pthread_mutex_lock(&input->print);
+	printf("%lld %u %s\n", (time_in_us() - input->start_time) / 1000, id, msg);
+	pthread_mutex_unlock(&input->print);
 }
 
 void	ft_usleep(long long time)

@@ -37,6 +37,7 @@ void	init_input(int ac, char **av, t_input *input)
 	input->philo_died = 0;
 	input->nbr_eat = -1;
 	pthread_mutex_init(&input->died, NULL);
+	pthread_mutex_init(&input->print, NULL);
 	if (ac == 6)
 		input->nbr_eat = ft_atoi(av[5]);
 }
